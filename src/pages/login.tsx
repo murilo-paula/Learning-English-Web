@@ -1,140 +1,53 @@
-import React, { useState } from 'react';
-import type { ChangeEvent, FormEvent } from 'react';
-import { register } from '../service/authService';
 
-// 1. Definindo a interface para o estado do formulário
-interface FormData {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export default function RegisterForm() {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-
-  const [error, setError] = useState<string>('');
-
-  // 2. Tipando o evento de mudança de input
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // 3. Tipando o evento de envio do formulário
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (formData.password !== formData.confirmPassword) {
-      setError('As senhas não coincidem.');
-      return;
-    }
-
-    setError('');
-    console.log('Dados do usuário:', formData);
-    try {
-    const user = await register({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-    });
-    console.log('Usuário criado:', user);
-    } catch (err) {
-    setError('Erro ao cadastrar. Tente novamente.');
-    }
-  };
-
+const login = () => {
   return (
-    <main style={{ maxWidth: '400px', margin: '2rem auto', padding: '1rem' }}>
-      <section>
-        <h2>Criar uma conta</h2>
-        <p>Preencha os campos abaixo para se cadastrar.</p>
-
-        {error && (
-          <div role="alert" style={{ color: 'red', marginBottom: '1rem' }}>
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '1rem' }}>
-            <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem' }}>
-              Nome completo
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              autoComplete="name"
-              style={{ width: '100%', padding: '0.5rem' }}
-            />
-          </div>
-
-          <div style={{ marginBottom: '1rem' }}>
-            <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem' }}>
-              E-mail
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              autoComplete="email"
-              style={{ width: '100%', padding: '0.5rem' }}
-            />
-          </div>
-
-          <div style={{ marginBottom: '1rem' }}>
-            <label htmlFor="password" style={{ display: 'block', marginBottom: '0.5rem' }}>
-              Senha
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              minLength={8}
-              autoComplete="new-password"
-              style={{ width: '100%', padding: '0.5rem' }}
-            />
-          </div>
-
-          <div style={{ marginBottom: '1rem' }}>
-            <label htmlFor="confirmPassword" style={{ display: 'block', marginBottom: '0.5rem' }}>
-              Confirmar senha
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              autoComplete="new-password"
-              style={{ width: '100%', padding: '0.5rem' }}
-            />
-          </div>
-
-          <button type="submit" style={{ width: '100%', padding: '0.75rem', cursor: 'pointer' }}>
-            Cadastrar
+    <div className="flex w-screen h-screen items-center justify-center bg-gray-300">
+      <div className="w-100 bg-blue-900 text-gray-400 rounded-2xl p-6">
+        <p className="fixed"></p>
+        <h1 className="flex font-bold text-3xl text-white justify-center mb-3">
+          Pratice English
+        </h1>
+        <h2 className="flex text-xl justify-center mb-1">
+          Log in to your account
+        </h2>
+        <p className="flex items-center justify-center gap-2">
+          <span>or</span>
+          <span className="text-emerald-500 cursor-pointer">Register</span>
+        </p>
+        <form className="grid grid-cols-1">
+          <label htmlFor="email" className="flex justify-center mb-1">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="your@gmail.com"
+            className="h-7 bg-white rounded mb-3"
+            required
+          />
+          <label htmlFor="password" className="flex justify-center mb-1">password</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            className="h-7 bg-white rounded mb-3"
+            placeholder="***************"
+            required
+            minLength={8}
+          />
+          <p className="flex text-emerald-500 hover:text-emerald-600 cursor-pointer justify-end pb-3">
+            Forgot your password?
+          </p>
+          <button type="submit" className="h-8 bg-emerald-500 hover:bg-emerald-600 rounded text-white cursor-pointer">
+            log in
           </button>
         </form>
-      </section>
-    </main>
-  );
+
+        <div className="flex justify-center w-full mt-3">
+          <h1 className="font-bold text-red-500 text-2xl">in development</h1>
+        </div>
+      </div>
+    </div>
+  )
 }
+
+export default login
